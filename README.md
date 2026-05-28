@@ -59,8 +59,8 @@ Open the HTML file in a browser.
 You can use the minified JS and CSS directly in any browser project by linking the hosted files:
 
 ```html
-<link rel="stylesheet" href="https://www.hmz.ie/m/m.min.css" />
-<script src="https://www.hmz.ie/m/m.min.js"></script>
+<link rel="stylesheet" href="https://www.hmz.ie/m/min/m.min.css" />
+<script src="https://www.hmz.ie/m/min/m.min.js"></script>
 ```
 
 Place the stylesheet in the document `<head>`. Place the script before the closing `</body>` tag, or before your inline app script, so `window.M` is available when you call `new M(...)`.
@@ -71,7 +71,7 @@ Place the stylesheet in the document `<head>`. Place the script before the closi
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://www.hmz.ie/m/m.min.css" />
+    <link rel="stylesheet" href="https://www.hmz.ie/m/min/m.min.css" />
     <title>M.js App</title>
   </head>
   <body>
@@ -83,7 +83,7 @@ Place the stylesheet in the document `<head>`. Place the script before the closi
       </article>
     </main>
 
-    <script src="https://www.hmz.ie/m/m.min.js"></script>
+    <script src="https://www.hmz.ie/m/min/m.min.js"></script>
     <script>
       new M({
         el: "#app",
@@ -112,7 +112,7 @@ To use it locally, link the file in your page:
 For production or hosted usage, link the minified file:
 
 ```html
-<link rel="stylesheet" href="https://www.hmz.ie/m/m.min.css" />
+<link rel="stylesheet" href="https://www.hmz.ie/m/min/m.min.css" />
 ```
 
 The stylesheet includes base styles for common elements such as headings, links, lists, forms, tables, `article`, `blockquote`, `details`, `code`, and `pre`. It also includes utility and component classes:
@@ -370,7 +370,7 @@ site/
 ```html
 <div id="app">Loading...</div>
 
-<script src="https://www.hmz.ie/m/m.min.js"></script>
+<script src="https://www.hmz.ie/m/min/m.min.js"></script>
 <script src="script.js"></script>
 ```
 
@@ -595,8 +595,8 @@ npx terser m.js \
 --compress passes=3 \
 --mangle toplevel,reserved=['M'] \
 --mangle-props regex=/^_/ \
---output m.min.js
+--output min/m.min.js
 
 # Minifying CSS
-npx clean-css-cli -o m.min.css m.css
+npx clean-css-cli -o min/m.min.css m.css
 ```
