@@ -1,6 +1,6 @@
-# M
+# m
 
-M is a minimal (~ 20kb), zero-build frontend library for adding reactive behavior directly to plain HTML. It gives you a small `new M(...)` API, declarative `m-*` attributes, computed values, watchers, event handlers, simple conditionals, loops, and custom behaviors without requiring a bundler or component compiler. It also includes `m.css`, an optional CSS library for clean defaults and small reusable UI classes.
+m is a minimal (~ 20kb), zero-build frontend library for adding reactive behavior directly to plain HTML. It gives you a small `new M(...)` API, declarative `m-*` attributes, computed values, watchers, event handlers, simple conditionals, loops, and custom behaviors without requiring a bundler or component compiler. It can also work as a small templating library: render a shared layout, fill slots with page fragments, include reusable partials, replace `{{ placeholders }}`, apply filters, and route between pages in a static website. It also includes `m.css`, an optional CSS library for clean defaults and small reusable UI classes.
 
 The JavaScript library is contained in [`m.js`](./m.js), the CSS library is contained in [`m.css`](./m.css), and [`index.html`](./index.html) is a complete browser demo.
 
@@ -18,6 +18,7 @@ The JavaScript library is contained in [`m.js`](./m.js), the CSS library is cont
 - Watchers for top-level and nested state paths
 - Lifecycle hook with `mounted`
 - Custom directive-like behaviors with `app.behavior(...)`
+- Static templating with layouts, slots, includes, placeholders, filters, and hash-routed pages
 - Optional CSS library with semantic element styling, layout helpers, buttons, cards, badges, alerts, and form defaults
 
 ## Quick Start
@@ -320,7 +321,7 @@ There are a few main ways to extend the library.
 
 ## Static Templating
 
-M.js can also render simple HTML layouts before starting a reactive app.
+M.js can also render simple HTML layouts before starting a reactive app. This lets you use `m` as a tiny website templating library for static sites, documentation, portfolios, small blogs, or multi-page demos without introducing a build step.
 
 ```js
 await M.renderTemplate({
@@ -345,7 +346,130 @@ Supported template features:
 
 Built-in filters: `abs`, `capitalize`, `default`, `first`, `format`, `join`, `last`, `length`, `lower`, `max`, `min`, `random`, `replace`, `reverse`, `round`, `slice`, `sort`, `title`, `trim`, `truncate`, `unique`, `upper`, `wordcount`, and `yesno`.
 
-See [`basic/`](./basic/) for a complete example. Run it from a local web server because the renderer uses `fetch()` to load HTML files.
+### Building a Full Website
+
+A typical `m` website has one browser entry file, one base layout, shared partials, and one HTML fragment per page:
+
+```txt
+site/
+├── index.html
+├── base.html
+├── script.js
+├── partials/
+│   ├── header.html
+│   └── footer.html
+└── pages/
+    ├── home.html
+    ├── about.html
+    ├── articles.html
+    └── contact.html
+```
+
+`index.html` only needs a mount element and the library:
+
+```html
+<div id="app">Loading...</div>
+
+<script src="https://www.hmz.ie/m/m.min.js"></script>
+<script src="script.js"></script>
+```
+
+Use `base.html` for the shared shell. Slots are filled by pages, includes are reusable fragments, and placeholders come from render data:
+
+```html
+<div class="site-shell">
+  <m-include src="partials/header.html"></m-include>
+
+  <main class="page">
+    <m-slot name="content"></m-slot>
+  </main>
+
+  <m-include src="partials/footer.html"></m-include>
+</div>
+```
+
+Create each page as a normal HTML fragment. Page fragments can use placeholders and can also start their own reactive `new M(...)` instance after they render:
+
+```html
+<section id="contact-page">
+  <h1>{{ title }}</h1>
+  <p>{{ subtitle }}</p>
+
+  <form m-submit.prevent="send">
+    <input m-model="email" type="email" placeholder="Email" />
+    <button type="submit">Send</button>
+  </form>
+</section>
+
+<script>
+  new M({
+    el: "#contact-page",
+    data() {
+      return { email: "" };
+    },
+    methods: {
+      send() {
+        alert(`Thanks, ${this.email}`);
+      },
+    },
+  });
+</script>
+```
+
+Then wire the pages together with the template router:
+
+```js
+const pages = {
+  home: {
+    file: "pages/home.html",
+    title: "Home",
+    subtitle: "Welcome to the site.",
+  },
+  about: {
+    file: "pages/about.html",
+    title: "About",
+    subtitle: "A static page rendered into the shared layout.",
+  },
+  articles: {
+    file: "pages/articles.html",
+    title: "Articles",
+    subtitle: "A list page.",
+  },
+  contact: {
+    file: "pages/contact.html",
+    title: "Contact",
+    subtitle: "A page with its own reactive form.",
+  },
+};
+
+M.startTemplateRouter({
+  el: "#app",
+  base: "base.html",
+  defaultPage: "home",
+  pages,
+  data: {
+    year: new Date().getFullYear(),
+    siteName: "My Site",
+  },
+});
+```
+
+This creates hash routes such as `#/home`, `#/about`, `#/articles`, and `#/contact`. Each route renders the same base layout, swaps the `content` slot to the matching file, injects `title`, `subtitle`, shared data such as `siteName`, and active-link helpers such as `homeActive` and `aboutActive`.
+
+For blogs or content collections, keep posts in a small JavaScript file and use `M.createPostManager(...)` for slugs, sorting, tag lists, featured posts, and detail lookups. The blog example shows a list route like `#/articles` and detail routes like `#/articles/building-a-blog-with-m-js-templates`.
+
+See [`examples/basic/`](./examples/basic/) for a complete multi-page site and [`examples/blog/`](./examples/blog/) for a small blog. Run them from a local web server because the renderer uses `fetch()` to load HTML files:
+
+```bash
+python3 -m http.server 8080
+```
+
+Then open:
+
+```txt
+http://localhost:8080/examples/basic/
+http://localhost:8080/examples/blog/
+```
 
 ### Add a Custom Behavior
 
