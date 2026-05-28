@@ -1,6 +1,6 @@
-# M.js
+# M
 
-M.js is a tiny, zero-build frontend library for adding reactive behavior directly to plain HTML. It gives you a small `new M(...)` API, declarative `m-*` attributes, computed values, watchers, event handlers, simple conditionals, loops, and custom behaviors without requiring a bundler or component compiler. It also includes `m.css`, an optional CSS library for clean defaults and small reusable UI classes.
+M is a minimal (~ 20kb), zero-build frontend library for adding reactive behavior directly to plain HTML. It gives you a small `new M(...)` API, declarative `m-*` attributes, computed values, watchers, event handlers, simple conditionals, loops, and custom behaviors without requiring a bundler or component compiler. It also includes `m.css`, an optional CSS library for clean defaults and small reusable UI classes.
 
 The JavaScript library is contained in [`m.js`](./m.js), the CSS library is contained in [`m.css`](./m.css), and [`index.html`](./index.html) is a complete browser demo.
 
