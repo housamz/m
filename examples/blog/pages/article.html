@@ -1,0 +1,33 @@
+<article id="article-page" class="article-detail">
+  <template m-if="post">
+    <a class="back-link" href="#/articles">Back to articles</a>
+    <section class="panel">
+      <p class="meta" m-text="post.date"></p>
+      <h1 m-text="post.title"></h1>
+      <p class="lead" m-text="post.excerpt"></p>
+      <div class="tag-row">
+        <span m-for="tag in post.tags" m-text="tag"></span>
+      </div>
+      <div class="article-body" m-html="post.body"></div>
+    </section>
+  </template>
+
+  <template m-else>
+    <section class="panel">
+      <h1>Article not found</h1>
+      <p>The post you are looking for does not exist.</p>
+      <a href="#/articles">Back to articles</a>
+    </section>
+  </template>
+</article>
+
+<script>
+  new M({
+    el: "#article-page",
+    data() {
+      return {
+        post: window.blog.posts.find(window.blog.currentSlug()),
+      };
+    },
+  });
+</script>

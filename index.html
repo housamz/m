@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>m.js Knowledge Base Platform</title>
+    <link rel="stylesheet" href="m.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app" style="display: flex; width: 100vw; height: 100vh">
+      <aside>
+        <div class="logo-area">
+          <h2><a href="./">m.js v0.1</a></h2>
+          <p>Documentation</p>
+        </div>
+
+        <div class="search-box">
+          <input
+            type="text"
+            m-model="searchQuery"
+            placeholder="Search features..."
+          />
+        </div>
+
+        <nav>
+          <div m-for="row in navigationRows">
+            <template m-if="row.type === 'heading'">
+              <h3 m-text="row.label"></h3>
+            </template>
+            <template m-else>
+              <h3
+                class="nav-item"
+                :class="row.activeClass"
+                m-click="switchTab(row.id)"
+              >
+                <span m-text="row.label"></span>
+              </h3>
+            </template>
+          </div>
+          <p class="empty-state" m-show="!hasNavigationResults">
+            No navigation items match your search.
+          </p>
+
+          <h3>Examples</h3>
+          <div class="external-links">
+            <a
+              m-for="example in exampleLinks"
+              :href="example.href"
+              class="nav-link"
+              m-text="example.label"
+            ></a>
+          </div>
+        </nav>
+      </aside>
+
+      <main>
+        <div class="content-card">
+          <template m-if="activeTab === 'counter'">
+            <h1>Simple Count Button</h1>
+            <p class="lead-text">
+              A minimal example of reactive state: click the button, update
+              <code>count</code>, and m.js refreshes the displayed value.
+            </p>
+
+            <div class="playground">
+              <div class="play-header">Live Playground: Counter</div>
+              <div class="play-body">
+                <p>
+                  Current count:
+                  <strong m-text="count"></strong>
+                </p>
+                <div class="counter-actions">
+                  <button type="button" m-click="incrementCount">
+                    Count Up
+                  </button>
+                  <button
+                    type="button"
+                    class="secondary-button"
+                    m-click="decrementCount"
+                  >
+                    Count Down
+                  </button>
+                  <button
+                    type="button"
+                    class="secondary-button"
+                    m-click="resetCount"
+                    :disabled="count === 0"
+                  >
+                    Reset
+                  </button>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <template m-if="activeTab === 'intro'">
+            <h1>Introduction</h1>
+            <p class="lead-text">
+              m.js is a zero-build, ultra-lightweight frontend library that
+              handles declarative data-binding and structural components
+              straight out of your browser HTML file using native ES6 Proxies.
+            </p>
+            <p>
+              Use the navigation panel on the left to browse and test the new
+              extended capabilities of the version 2 modular framework release
+              core.
+            </p>
+          </template>
+
+          <template m-if="activeTab === 'css'">
+            <h1>m.css Component Library</h1>
+            <p class="lead-text">
+              m.css is the optional stylesheet for m.js projects. It gives
+              semantic HTML a clean default design and adds a small set of
+              reusable component classes.
+            </p>
+
+            <section class="playground">
+              <div class="play-header">Use Semantic HTML First</div>
+              <div class="play-body stack">
+                <article>
+                  <p class="eyebrow">Article</p>
+                  <h2>Plain articles become readable cards</h2>
+                  <p>
+                    Drop in <code>&lt;article&gt;</code>,
+                    <code>&lt;section&gt;</code>, headings, paragraphs, lists,
+                    code, tables, quotes, and forms. m.css handles spacing,
+                    borders, type, and focus states.
+                  </p>
+                  <blockquote>
+                    Good defaults reduce the number of project styles you have
+                    to write before an example feels complete.
+                  </blockquote>
+                </article>
+
+                <div class="grid">
+                  <article>
+                    <span class="badge">Card</span>
+                    <h3>Cards</h3>
+                    <p>
+                      Use semantic <code>&lt;article&gt;</code> or
+                      <code>.card</code> for repeated content blocks.
+                    </p>
+                    <a class="button" href="./examples/basic">Open basic</a>
+                  </article>
+
+                  <article>
+                    <span class="badge">Form</span>
+                    <h3>Forms</h3>
+                    <label>
+                      Project name
+                      <input type="text" value="M Journal" />
+                    </label>
+                    <div class="cluster">
+                      <button type="button">Save</button>
+                      <button type="button" class="secondary-button">
+                        Cancel
+                      </button>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </section>
+
+            <section class="playground">
+              <div class="play-header">Component Classes</div>
+              <div class="play-body">
+                <div class="grid">
+                  <div class="card">
+                    <h3>Layout</h3>
+                    <p>
+                      <code>.container</code>, <code>.page</code>,
+                      <code>.stack</code>, <code>.grid</code>,
+                      <code>.cluster</code>, and <code>.split</code>.
+                    </p>
+                  </div>
+                  <div class="card">
+                    <h3>Components</h3>
+                    <p>
+                      <code>.button</code>, <code>.card</code>,
+                      <code>.panel</code>, <code>.badge</code>,
+                      <code>.alert</code>, <code>.navbar</code>.
+                    </p>
+                  </div>
+                  <div class="card">
+                    <h3>Semantic Elements</h3>
+                    <p>
+                      <code>article</code>, <code>blockquote</code>,
+                      <code>details</code>, <code>figure</code>,
+                      <code>table</code>, <code>fieldset</code>, and
+                      <code>hr</code>.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="alert success">
+                  The goal is to start a new example with
+                  <code>&lt;link rel="stylesheet" href="m.css" /&gt;</code>
+                  and write little or no custom CSS.
+                </div>
+              </div>
+            </section>
+
+            <section class="playground">
+              <div class="play-header">Minimal Page Shape</div>
+              <div class="play-body">
+                <pre><code>&lt;link rel="stylesheet" href="m.css" /&gt;
+
+&lt;main class="page stack"&gt;
+  &lt;section class="hero"&gt;
+    &lt;p class="eyebrow"&gt;Example&lt;/p&gt;
+    &lt;h1&gt;Small app, already styled&lt;/h1&gt;
+    &lt;p class="lead"&gt;Semantic HTML carries most of the design.&lt;/p&gt;
+  &lt;/section&gt;
+
+  &lt;article&gt;
+    &lt;h2&gt;A content card&lt;/h2&gt;
+    &lt;p&gt;No project-specific CSS required.&lt;/p&gt;
+    &lt;a class="button" href="#"&gt;Continue&lt;/a&gt;
+  &lt;/article&gt;
+&lt;/main&gt;</code></pre>
+              </div>
+            </section>
+          </template>
+
+          <template m-if="activeTab === 'bind'">
+            <h1>Attribute Handling Shorthand (<code>:attr</code>)</h1>
+            <p class="lead-text">
+              Dynamically bind JavaScript model values straight into HTML
+              properties like classes, disabled keys, sources, and dataset
+              fields.
+            </p>
+
+            <div class="playground">
+              <div class="play-header">
+                Live Playground: Reactive Class and Button States
+              </div>
+              <div class="play-body">
+                <p>
+                  Toggle inputs to see the button component receive the
+                  <code>:disabled</code> state attribute dynamically.
+                </p>
+
+                <input
+                  type="text"
+                  m-model="demoInput"
+                  placeholder="Type something to unlock button..."
+                />
+                <br /><br />
+                <button :disabled="isButtonDisabled">
+                  Interactive Target Action Button
+                </button>
+              </div>
+            </div>
+          </template>
+
+          <template m-if="activeTab === 'computed'">
+            <h1>Computed Properties</h1>
+            <p class="lead-text">
+              Computed properties allow you to set up cached, calculations-based
+              tracking values that update automatically when their dependencies
+              mutate.
+            </p>
+
+            <div class="playground">
+              <div class="play-header">
+                Live Playground: Computed Name Transformer
+              </div>
+              <div class="play-body">
+                <div style="display: flex; gap: 10px; margin-bottom: 12px">
+                  <input
+                    type="text"
+                    m-model="user.firstName"
+                    placeholder="First Name"
+                  />
+                  <input
+                    type="text"
+                    m-model="user.lastName"
+                    placeholder="Last Name"
+                  />
+                </div>
+                <p>
+                  Full Structural Profile Name:
+                  <strong m-text="fullName"></strong>
+                </p>
+              </div>
+            </div>
+          </template>
+
+          <template m-if="activeTab === 'watch'">
+            <h1>State Watchers (<code>watch</code>)</h1>
+            <p class="lead-text">
+              Watchers perform custom asynchronous operations or transactional
+              logic side-effects whenever a targeted state model is altered.
+            </p>
+
+            <div class="playground">
+              <div class="play-header">
+                Live Playground: Activity Logs Interceptor
+              </div>
+              <div class="play-body">
+                <p>
+                  Modify the tracking target variable below to trigger an
+                  explicit background watcher method that automatically
+                  generates telemetry timestamp logs.
+                </p>
+
+                <input
+                  type="text"
+                  m-model="trackedVariable"
+                  placeholder="Change this value..."
+                />
+
+                <div class="banner banner-alert">
+                  Last Watch Intercept: <span m-text="watchLog"></span>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <template m-if="activeTab === 'lists'">
+            <h1>List Rendering Todo App</h1>
+            <p class="lead-text">
+              Render arrays with <code>m-for</code>, mutate them from methods,
+              and let the reactive proxy refresh the visible list.
+            </p>
+
+            <div class="playground">
+              <div class="play-header">
+                Live Playground: Reactive Todo Collection
+              </div>
+              <div class="play-body">
+                <form class="todo-form" m-submit.prevent="addTodo">
+                  <input
+                    type="text"
+                    m-model="newTodo"
+                    placeholder="Add a todo..."
+                  />
+                  <button type="submit" :disabled="isTodoInputEmpty">
+                    Add Todo
+                  </button>
+                </form>
+
+                <div class="todo-summary">
+                  <span m-text="todoSummary"></span>
+                  <button
+                    type="button"
+                    class="secondary-button"
+                    m-click="clearCompleted"
+                    :disabled="completedTodos === 0"
+                  >
+                    Clear Completed
+                  </button>
+                </div>
+
+                <ul class="todo-list">
+                  <li m-for="todo in todos" :class="{ done: todo.done }">
+                    <button
+                      type="button"
+                      class="todo-toggle"
+                      m-click="toggleTodo(todo.id)"
+                    >
+                      <span m-text="todo.done ? 'Done' : 'Open'"></span>
+                    </button>
+                    <span class="todo-title" m-text="todo.title"></span>
+                    <button
+                      type="button"
+                      class="secondary-button"
+                      m-click="removeTodo(todo.id)"
+                    >
+                      Remove
+                    </button>
+                  </li>
+                </ul>
+
+                <p class="empty-state" m-show="todos.length === 0">
+                  No todos yet. Add one above to see <code>m-for</code> render a
+                  new row.
+                </p>
+              </div>
+            </div>
+          </template>
+
+          <template m-if="activeTab === 'filters'">
+            <h1>Template Filters</h1>
+            <p class="lead-text">
+              Static templates support Jinja-inspired filters inside
+              <code>{{ placeholders }}</code>, so layout data can be shaped
+              before it is written into the page.
+            </p>
+
+            <div class="playground">
+              <div class="play-header">Static Template Filter Reference</div>
+              <div class="play-body">
+                <div class="filter-list">
+                  <div class="filter-card" m-for="filter in filterExamples">
+                    <div class="filter-card-header">
+                      <h2 m-text="filter.name"></h2>
+                      <p m-text="filter.description"></p>
+                    </div>
+                    <dl>
+                      <dt>Example</dt>
+                      <dd><code m-text="filter.syntax"></code></dd>
+                      <dt>Input</dt>
+                      <dd><code m-text="filter.input"></code></dd>
+                      <dt>Result</dt>
+                      <dd><code m-text="filter.result"></code></dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <template m-if="activeTab === 'playground'">
+            <h1>Code Playground</h1>
+            <p class="lead-text">
+              Edit the example, run it, and test m.js behavior in an isolated
+              preview frame.
+            </p>
+
+            <div class="playground code-playground">
+              <div class="play-header">Live Playground: Editable Example</div>
+              <div class="play-body">
+                <div class="playground-toolbar">
+                  <button type="button" m-click="runPlayground">Run</button>
+                  <button
+                    type="button"
+                    class="secondary-button"
+                    m-click="resetPlayground"
+                  >
+                    Reset
+                  </button>
+                </div>
+
+                <div class="playground-grid">
+                  <label class="code-editor">
+                    <span>HTML and JavaScript</span>
+                    <textarea
+                      m-model="playgroundCode"
+                      spellcheck="false"
+                    ></textarea>
+                  </label>
+
+                  <div class="preview-panel">
+                    <span>Preview</span>
+                    <iframe
+                      title="m.js playground preview"
+                      :srcdoc="playgroundFrameHtml"
+                    ></iframe>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+
+          <template m-if="activeTab === 'api'">
+            <h1>Asynchronous Data Flows & Modifiers</h1>
+            <p class="lead-text">
+              This engine processes background async network activities without
+              complex rendering trees. It also handles event modifiers like
+              <code>m-submit.prevent</code> directly.
+            </p>
+
+            <div class="playground">
+              <div class="play-header">
+                Live Playground: GitHub Query Interface
+              </div>
+              <div class="play-body">
+                <form
+                  m-submit.prevent="runFetchPipeline"
+                  style="display: flex; gap: 8px; margin-bottom: 16px"
+                >
+                  <input
+                    type="text"
+                    m-model="apiSearchTerm"
+                    placeholder="Enter username (e.g. torvalds)"
+                  />
+                  <button type="submit">Query Async</button>
+                </form>
+
+                <template m-if="apiStatus === 'idle'">
+                  <div class="banner">
+                    Enter an external username parameter handle string to deploy
+                    testing.
+                  </div>
+                </template>
+                <template m-else-if="apiStatus === 'loading'">
+                  <div class="banner banner-alert">
+                    ⏳ Querying public GitHub infrastructure repositories...
+                  </div>
+                </template>
+                <template m-else-if="apiStatus === 'error'">
+                  <div
+                    class="banner banner-success"
+                    style="
+                      background: #fee2e2;
+                      border-color: #dc2626;
+                      color: #991b1b;
+                    "
+                  >
+                    ❌ User payload target not verified.
+                  </div>
+                </template>
+                <template m-else>
+                  <div class="banner banner-success">
+                    <strong>Name:</strong>
+                    <span m-text="apiPayloadData.name"></span><br />
+                    <strong>Location:</strong>
+                    <span m-text="apiPayloadData.location"></span><br />
+                    <strong>Company:</strong>
+                    <span m-text="apiPayloadData.company"></span><br />
+                    <strong>Followers:</strong>
+                    <span m-text="apiPayloadData.followers"></span><br />
+                    <strong>Public Repos:</strong>
+                    <span m-text="apiPayloadData.public_repos"></span>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </template>
+        </div>
+      </main>
+    </div>
+
+    <script src="m.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+<section class="hero">
+  <p class="eyebrow">Homepage</p>
+  <h1>{{ title }}</h1>
+  <p>{{ subtitle }}</p>
+</section>
+
+<section class="panel">
+  <h2>Template filters</h2>
+  <p>First tag: <code>{{ tags | first }}</code></p>
+  <p>All tags: <code>{{ tags | join:', ' }}</code></p>
+  <p>Highest score: <code>{{ scores | max }}</code></p>
+  <p>Author: <code>{{ emptyAuthor | default:'Anonymous' }}</code></p>
+</section>
+
+<section class="panel">
+  <h2>Why this homepage exists</h2>
+  <p>
+    This example shows how m.js can render a static layout, swap page fragments,
+    and then start reactive page-level behavior after the HTML is in place.
+  </p>
+  <p>
+    Posts are managed in one file: <code>posts.js</code>. Add a new object to
+    the array and it appears in the article list automatically.
+  </p>
+</section>

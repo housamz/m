@@ -1,0 +1,14 @@
+.page {
+  max-width: 860px;
+  padding-top: 48px;
+}
+
+.todo-list li {
+  grid-template-columns: auto 1fr;
+}
+
+.error-panel pre {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}

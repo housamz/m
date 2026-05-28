@@ -1,0 +1,42 @@
+<section class="hero">
+  <p class="eyebrow">Page-owned JavaScript</p>
+  <h1>{{ title }}</h1>
+  <p>{{ subtitle }}</p>
+</section>
+
+<section id="counter-page" class="panel">
+  <h2>Counter Example</h2>
+  <p>
+    This page fragment includes its own script tag. The base layout does not
+    know how this counter works.
+  </p>
+
+  <div class="counter-demo">
+    <button type="button" m-click="decrement">Down</button>
+    <strong m-text="count"></strong>
+    <button type="button" m-click="increment">Up</button>
+    <button type="button" m-click="reset" :disabled="count === 0">Reset</button>
+  </div>
+</section>
+
+<script>
+  new M({
+    el: "#counter-page",
+    data() {
+      return {
+        count: 0,
+      };
+    },
+    methods: {
+      increment() {
+        this.count += 1;
+      },
+      decrement() {
+        this.count -= 1;
+      },
+      reset() {
+        this.count = 0;
+      },
+    },
+  });
+</script>

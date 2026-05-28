@@ -1,0 +1,46 @@
+<section id="contact-page">
+  <div class="hero">
+    <p class="eyebrow">Contact</p>
+    <h1>{{ title }}</h1>
+    <p>{{ subtitle }}</p>
+  </div>
+
+  <section class="panel">
+    <form class="contact-form" m-submit.prevent="send">
+      <label>
+        Name
+        <input type="text" m-model="name" />
+      </label>
+      <label>
+        Message
+        <textarea m-model="message"></textarea>
+      </label>
+      <button type="submit" :disabled="name.trim() === '' || message.trim() === ''">
+        Send
+      </button>
+    </form>
+
+    <p class="success-note" m-show="sent">
+      Thanks, <span m-text="name"></span>. Your message is ready to wire to a
+      backend.
+    </p>
+  </section>
+</section>
+
+<script>
+  new M({
+    el: "#contact-page",
+    data() {
+      return {
+        name: "",
+        message: "",
+        sent: false,
+      };
+    },
+    methods: {
+      send() {
+        this.sent = true;
+      },
+    },
+  });
+</script>

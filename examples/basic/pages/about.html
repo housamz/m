@@ -1,0 +1,33 @@
+<section class="hero">
+  <p class="eyebrow">Templating mode</p>
+  <h1>{{ title }}</h1>
+  <p>{{ subtitle }}</p>
+</section>
+
+<section class="panel">
+  <h2>Separate HTML, one final page</h2>
+  <p>
+    This content comes from <code>pages/about.html</code>. The surrounding
+    header, main wrapper, and footer come from <code>base.html</code>.
+  </p>
+  <p>
+    After the template is rendered, you can still start a normal m.js app on
+    the result and use reactive directives.
+  </p>
+
+  <div class="counter-demo">
+    <span>Page script count: <strong m-text="count"></strong></span>
+    <button type="button" m-click="count += 1">Count</button>
+  </div>
+</section>
+
+<script>
+  new M({
+    el: ".counter-demo",
+    data() {
+      return {
+        count: 0,
+      };
+    },
+  });
+</script>

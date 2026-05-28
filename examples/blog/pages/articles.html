@@ -1,0 +1,58 @@
+<section id="articles-page" class="page-app">
+  <div class="hero">
+    <p class="eyebrow">Articles</p>
+    <h1>{{ title }}</h1>
+    <p>{{ subtitle }}</p>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" m-model="query" placeholder="Search articles..." />
+    <span m-text="resultLabel" id="resultLabel"></span>
+  </div>
+
+  <div class="article-list">
+    <article m-for="post in filteredPosts" class="article-card">
+      <p class="meta" m-text="post.date"></p>
+      <h2>
+        <a :href="'#/articles/' + post.slug" m-text="post.title"></a>
+      </h2>
+      <p m-text="post.excerpt"></p>
+      <div class="tag-row">
+        <span m-text="post.tags.join(' / ')"></span>
+      </div>
+    </article>
+  </div>
+
+  <p class="empty-note" m-show="filteredPosts.length === 0">
+    No articles match your search.
+  </p>
+</section>
+
+<script>
+  new M({
+    el: "#articles-page",
+    data() {
+      return {
+        query: "",
+        posts: window.blog.posts.published(),
+      };
+    },
+    computed: {
+      filteredPosts() {
+        const query = this.query.toLowerCase().trim();
+        if (!query) return this.posts;
+
+        return this.posts.filter((post) => {
+          return (
+            post.title.toLowerCase().includes(query) ||
+            post.excerpt.toLowerCase().includes(query) ||
+            post.tags.join(" ").toLowerCase().includes(query)
+          );
+        });
+      },
+      resultLabel() {
+        return `${this.filteredPosts.length} shown`;
+      },
+    },
+  });
+</script>

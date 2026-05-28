@@ -1,0 +1,59 @@
+<section class="hero">
+  <p class="eyebrow">Fragment app</p>
+  <h1>{{ title }}</h1>
+  <p>{{ subtitle }}</p>
+</section>
+
+<section id="todo-page" class="panel">
+  <h2>Todo Example</h2>
+
+  <form class="todo-form" m-submit.prevent="addTodo">
+    <input type="text" m-model="newTodo" placeholder="Add an item" />
+    <button type="submit" :disabled="newTodo.trim().length === 0">Add</button>
+  </form>
+
+  <ul class="todo-list">
+    <li m-for="todo in todos" :class="{ done: todo.done }">
+      <button type="button" m-click="toggleTodo(todo.id)">
+        <span m-text="todo.done ? 'Done' : 'Open'"></span>
+      </button>
+      <span m-text="todo.title"></span>
+    </li>
+  </ul>
+
+  <p class="empty-note" m-show="todos.length === 0">
+    No items yet.
+  </p>
+</section>
+
+<script>
+  new M({
+    el: "#todo-page",
+    data() {
+      return {
+        newTodo: "",
+        todos: [
+          { id: 1, title: "Load content through base.html", done: true },
+          { id: 2, title: "Run this page's own script", done: false },
+        ],
+      };
+    },
+    methods: {
+      addTodo() {
+        const title = this.newTodo.trim();
+        if (!title) return;
+
+        this.todos.push({
+          id: Date.now(),
+          title,
+          done: false,
+        });
+        this.newTodo = "";
+      },
+      toggleTodo(id) {
+        const todo = this.todos.find((item) => item.id === id);
+        if (todo) todo.done = !todo.done;
+      },
+    },
+  });
+</script>
