@@ -1196,13 +1196,25 @@ class M {
    * @returns {{ event: string, modifiers: string[] }|null} Parsed event info.
    */
   _parseEventDirective(name) {
-    if (!name.startsWith("m-click") && !name.startsWith("m-submit")) {
+    if (
+      !name.startsWith("m-click") &&
+      !name.startsWith("m-submit") &&
+      !name.startsWith("m-change") &&
+      !name.startsWith("m-input")
+    ) {
       return null;
     }
 
     const [directive, ...modifiers] = name.split(".");
+    const eventMap = {
+      "m-click": "click",
+      "m-submit": "submit",
+      "m-change": "change",
+      "m-input": "input",
+    };
+
     return {
-      event: directive === "m-submit" ? "submit" : "click",
+      event: eventMap[directive],
       modifiers,
     };
   }
